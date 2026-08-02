@@ -1,6 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { SiAmazon, SiCsharp, SiMicrosoftazure } from 'react-icons/si'
+import type { IconType } from 'react-icons'
+
+type TechIcon = string | IconType
 
 const row1 = [
   { name: 'Flutter', icon: 'https://cdn.simpleicons.org/flutter/54C5F8' },
@@ -8,7 +12,7 @@ const row1 = [
   { name: 'Python', icon: 'https://cdn.simpleicons.org/python/3776AB' },
   { name: 'Java', icon: 'https://cdn.simpleicons.org/openjdk/ED8B00' },
   { name: 'C++', icon: 'https://cdn.simpleicons.org/cplusplus/00599C' },
-  { name: 'C#', icon: 'https://cdn.simpleicons.org/csharp/239120' },
+  { name: 'C#', icon: SiCsharp },
   { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
   { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6' },
   { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB' },
@@ -24,12 +28,14 @@ const row2 = [
   { name: 'GitHub', icon: 'https://cdn.simpleicons.org/github/181717' },
   { name: 'Docker', icon: 'https://cdn.simpleicons.org/docker/2496ED' },
   { name: 'Arduino', icon: 'https://cdn.simpleicons.org/arduino/00979D' },
-  { name: 'AWS', icon: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
-  { name: 'Azure', icon: 'https://cdn.simpleicons.org/microsoftazure/0078D4' },
+  { name: 'AWS', icon: SiAmazon },
+  { name: 'Azure', icon: SiMicrosoftazure },
   { name: 'TensorFlow', icon: 'https://cdn.simpleicons.org/tensorflow/FF6F00' },
 ]
 
-function TechCard({ name, icon }: { name: string; icon: string }) {
+function TechCard({ name, icon }: { name: string; icon: TechIcon }) {
+  const IconComponent = typeof icon === 'string' ? null : icon
+
   return (
     <motion.div
       className="glass flex flex-col items-center gap-2 px-5 py-3 rounded-xl mx-2 min-w-[90px] cursor-default"
@@ -39,16 +45,27 @@ function TechCard({ name, icon }: { name: string; icon: string }) {
       data-cursor-card
     >
       <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-background/70 ring-1 ring-border/50 shadow-sm">
-        <img
-          src={icon}
-          alt={name}
-          className="w-5 h-5 object-contain"
-          loading="lazy"
-          decoding="async"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none'
-          }}
-        />
+        {typeof icon === 'string' ? (
+          <img
+            src={icon}
+            alt={name}
+            className="w-5 h-5 object-contain"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none'
+            }}
+          />
+        ) : IconComponent ? (
+          <IconComponent
+            size={20}
+            className="w-5 h-5"
+            style={{
+              color: icon === SiCsharp ? '#239120' : icon === SiAmazon ? '#FF9900' : '#0078D4',
+            }}
+            aria-hidden="true"
+          />
+        ) : null}
       </div>
       <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">{name}</span>
     </motion.div>
