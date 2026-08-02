@@ -2,6 +2,10 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { SiAmazon, SiCsharp, SiMicrosoftazure } from 'react-icons/si'
+import type { IconType } from 'react-icons'
+
+type SkillIcon = string | IconType
 
 const categories = [
   {
@@ -11,7 +15,7 @@ const categories = [
       { name: 'Python', icon: 'https://cdn.simpleicons.org/python/3776AB' },
       { name: 'Java', icon: 'https://cdn.simpleicons.org/openjdk/ED8B00' },
       { name: 'C++', icon: 'https://cdn.simpleicons.org/cplusplus/00599C' },
-      { name: 'C#', icon: 'https://cdn.simpleicons.org/csharp/239120' },
+      { name: 'C#', icon: SiCsharp },
       { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
       { name: 'Dart', icon: 'https://cdn.simpleicons.org/dart/0175C2' },
     ],
@@ -53,8 +57,8 @@ const categories = [
     name: 'Cloud',
     color: '#F59E0B',
     skills: [
-      { name: 'Azure', icon: 'https://cdn.simpleicons.org/microsoftazure/0078D4' },
-      { name: 'AWS', icon: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
+      { name: 'Azure', icon: SiMicrosoftazure },
+      { name: 'AWS', icon: SiAmazon },
       { name: 'Docker', icon: 'https://cdn.simpleicons.org/docker/2496ED' },
       { name: 'Supabase', icon: 'https://cdn.simpleicons.org/supabase/3ECF8E' },
     ],
@@ -140,17 +144,33 @@ export function Skills() {
                   className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 ring-1 ring-border/40 bg-background/70"
                   style={{ background: `${categories[activeCategory].color}15` }}
                 >
-                  <img
-                    src={skill.icon}
-                    alt={skill.name}
-                    className="w-7 h-7 object-contain"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.style.display = 'none'
-                    }}
-                  />
+                  {typeof skill.icon === 'string' ? (
+                    <img
+                      src={skill.icon}
+                      alt={skill.name}
+                      className="w-7 h-7 object-contain"
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                      }}
+                    />
+                  ) : (
+                    <skill.icon
+                      size={24}
+                      className="w-7 h-7"
+                      style={{
+                        color:
+                          skill.name === 'C#'
+                            ? '#239120'
+                            : skill.name === 'AWS'
+                              ? '#FF9900'
+                              : '#0078D4',
+                      }}
+                      aria-hidden="true"
+                    />
+                  )}
                 </div>
                 <span className="text-xs font-medium text-foreground text-center leading-tight">
                   {skill.name}
