@@ -137,13 +137,15 @@ export function Skills() {
                 }}
               >
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 ring-1 ring-border/40 bg-background/70"
                   style={{ background: `${categories[activeCategory].color}15` }}
                 >
                   <img
                     src={skill.icon}
                     alt={skill.name}
                     className="w-7 h-7 object-contain"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.style.display = 'none'

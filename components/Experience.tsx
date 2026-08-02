@@ -34,7 +34,7 @@ const experiences = [
   {
     role: 'Research & Analytics Director',
     org: 'Get Sync Club',
-    duration: '2024 – Present',
+    duration: '2024 – 2025',
     type: 'Club Leadership',
     color: '#06B6D4',
     logo: null,

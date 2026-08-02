@@ -8,6 +8,7 @@ const row1 = [
   { name: 'Python', icon: 'https://cdn.simpleicons.org/python/3776AB' },
   { name: 'Java', icon: 'https://cdn.simpleicons.org/openjdk/ED8B00' },
   { name: 'C++', icon: 'https://cdn.simpleicons.org/cplusplus/00599C' },
+  { name: 'C#', icon: 'https://cdn.simpleicons.org/csharp/239120' },
   { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
   { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6' },
   { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB' },
@@ -37,14 +38,18 @@ function TechCard({ name, icon }: { name: string; icon: string }) {
       transition={{ duration: 0.25 }}
       data-cursor-card
     >
-      <img
-        src={icon}
-        alt={name}
-        className="w-8 h-8 object-contain"
-        onError={(e) => {
-          (e.target as HTMLImageElement).style.display = 'none'
-        }}
-      />
+      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-background/70 ring-1 ring-border/50 shadow-sm">
+        <img
+          src={icon}
+          alt={name}
+          className="w-5 h-5 object-contain"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none'
+          }}
+        />
+      </div>
       <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">{name}</span>
     </motion.div>
   )
