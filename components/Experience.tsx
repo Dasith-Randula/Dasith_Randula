@@ -40,7 +40,7 @@ const experiences = [
     logo: null,
     description:
       'Leading research activities and technology initiatives while supporting data-driven projects, technical discussions, and innovation within the organization.',
-    current: true,
+    current: false,
     side: 'right' as const,
   },
   {
