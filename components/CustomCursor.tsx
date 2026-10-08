@@ -8,9 +8,8 @@ export function CustomCursor() {
   const [isHoveringCard, setIsHoveringCard] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(true)
-  const particlesRef = useRef<Array<{ x: number; y: number; id: number }>>([])
-  const [particles, setParticles] = useState<Array<{ x: number; y: number; id: number; opacity: number }>>([])
-  const particleIdRef = useRef(0)
+  const trailElementsRef = useRef<Array<HTMLDivElement | null>>([])
+  const isVisibleRef = useRef(false)
 
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
@@ -20,7 +19,7 @@ export function CustomCursor() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window)
+      setIsMobile(window.matchMedia('(max-width: 768px), (pointer: coarse)').matches)
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
@@ -30,29 +29,40 @@ export function CustomCursor() {
   useEffect(() => {
     if (isMobile) return
 
-    let frameId: number
     const trail: Array<{ x: number; y: number }> = []
 
     const onMove = (e: MouseEvent) => {
       rawX.set(e.clientX)
       rawY.set(e.clientY)
-      setIsVisible(true)
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true
+        setIsVisible(true)
+      }
 
       trail.push({ x: e.clientX, y: e.clientY })
       if (trail.length > 6) trail.shift()
 
-      const newParticles = trail.map((pos, i) => ({
-        x: pos.x,
-        y: pos.y,
-        id: particleIdRef.current + i,
-        opacity: (i + 1) / trail.length * 0.35,
-      }))
-      particleIdRef.current += 1
-      setParticles(newParticles)
+      trail.forEach((pos, i) => {
+        const element = trailElementsRef.current[i]
+        if (!element) return
+        element.style.left = `${pos.x - 3}px`
+        element.style.top = `${pos.y - 3}px`
+        element.style.opacity = `${((i + 1) / trail.length) * 0.35}`
+      })
+      for (let i = trail.length; i < 6; i++) {
+        const element = trailElementsRef.current[i]
+        if (element) element.style.opacity = '0'
+      }
     }
 
-    const onLeave = () => setIsVisible(false)
-    const onEnter = () => setIsVisible(true)
+    const onLeave = () => {
+      isVisibleRef.current = false
+      setIsVisible(false)
+    }
+    const onEnter = () => {
+      isVisibleRef.current = true
+      setIsVisible(true)
+    }
 
     const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
@@ -72,7 +82,6 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', onLeave)
       document.removeEventListener('mouseenter', onEnter)
       document.removeEventListener('mouseover', onOver)
-      cancelAnimationFrame(frameId)
     }
   }, [isMobile, rawX, rawY])
 
@@ -83,16 +92,17 @@ export function CustomCursor() {
   return (
     <>
       {/* Particle trail */}
-      {particles.map((p) => (
+      {[0, 1, 2, 3, 4, 5].map((index) => (
         <div
-          key={p.id}
+          key={index}
+          ref={(element) => { trailElementsRef.current[index] = element }}
           className="pointer-events-none fixed rounded-full z-[9998]"
           style={{
-            left: p.x - 3,
-            top: p.y - 3,
+            left: 0,
+            top: 0,
             width: 6,
             height: 6,
-            opacity: p.opacity,
+            opacity: 0,
             background: 'radial-gradient(circle, #60A5FA, #A78BFA)',
             transform: 'translate(0, 0)',
             transition: 'opacity 0.3s ease',

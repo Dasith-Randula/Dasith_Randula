@@ -157,31 +157,127 @@
     position: relative;
     isolation: isolate;
     width: min(100%, 680px);
-    aspect-ratio: 1.08 / 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
     margin-inline: auto;
     pointer-events: auto;
   }
 
-  .hero-portrait-stage {
+  .hero-artwork {
     position: relative;
+    isolation: isolate;
+    width: 100%;
+    aspect-ratio: 1.08 / 1;
+  }
+
+  .hero-artwork-window {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-aura {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: transparent;
+  }
+
+  .hero-aura-blue,
+  .hero-aura-violet,
+  .hero-aura-cyan {
+    position: absolute;
+    display: block;
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(22, 139, 255, 0.42) 0%,
+      rgba(22, 139, 255, 0.25) 28%,
+      rgba(22, 139, 255, 0.1) 55%,
+      rgba(22, 139, 255, 0) 78%,
+      rgba(22, 139, 255, 0) 100%
+    );
+  }
+
+  .hero-aura-blue {
+    left: 0%;
+    top: 12%;
+    width: 76%;
+    height: 70%;
+  }
+
+  .hero-aura-violet {
+    left: 36%;
+    top: 13%;
+    width: 64%;
+    height: 72%;
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(109, 40, 217, 0.4) 0%,
+      rgba(109, 40, 217, 0.25) 28%,
+      rgba(109, 40, 217, 0.1) 55%,
+      rgba(109, 40, 217, 0) 78%,
+      rgba(109, 40, 217, 0) 100%
+    );
+  }
+
+  .hero-aura-cyan {
+    left: 1%;
+    top: 29%;
+    width: 43%;
+    height: 48%;
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(6, 182, 212, 0.14) 0%,
+      rgba(6, 182, 212, 0.07) 35%,
+      rgba(6, 182, 212, 0) 75%,
+      rgba(6, 182, 212, 0) 100%
+    );
+  }
+
+  .dark .hero-aura-blue {
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(22, 139, 255, 0.58) 0%,
+      rgba(22, 139, 255, 0.36) 28%,
+      rgba(22, 139, 255, 0.14) 55%,
+      rgba(22, 139, 255, 0) 78%,
+      rgba(22, 139, 255, 0) 100%
+    );
+  }
+
+  .dark .hero-aura-violet {
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(109, 40, 217, 0.54) 0%,
+      rgba(109, 40, 217, 0.34) 28%,
+      rgba(109, 40, 217, 0.13) 55%,
+      rgba(109, 40, 217, 0) 78%,
+      rgba(109, 40, 217, 0) 100%
+    );
+  }
+
+  .dark .hero-aura-cyan {
+    background: radial-gradient(
+      ellipse closest-side at center,
+      rgba(6, 182, 212, 0.2) 0%,
+      rgba(6, 182, 212, 0.1) 35%,
+      rgba(6, 182, 212, 0) 75%,
+      rgba(6, 182, 212, 0) 100%
+    );
+  }
+
+  .hero-portrait-stage {
+    position: absolute;
+    inset: 0;
     z-index: 2;
-    width: min(78%, 540px);
-    min-width: 260px;
-    margin-inline: auto;
-    transform-origin: center bottom;
-    will-change: transform;
   }
 
   .hero-portrait-image-shell {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    transform: translateY(8px);
+    position: absolute;
+    width: 125%;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-56.95%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, rgba(0, 0, 0, 0.9) 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, rgba(0, 0, 0, 0.9) 86%, transparent 100%);
   }
 
   .hero-portrait-image {
@@ -189,49 +285,9 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    object-position: center bottom;
-    filter: drop-shadow(0 18px 30px rgba(3, 9, 18, 0.28));
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 72%,
-      rgba(0, 0, 0, 0.9) 84%,
-      rgba(0, 0, 0, 0.45) 93%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 72%,
-      rgba(0, 0, 0, 0.9) 84%,
-      rgba(0, 0, 0, 0.45) 93%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    object-position: center;
     user-select: none;
     pointer-events: none;
-  }
-
-  .hero-aura {
-    position: absolute;
-    inset: 2% -12% 0 -12%;
-    z-index: 0;
-    border-radius: 46% 54% 48% 52% / 52% 44% 56% 48%;
-    pointer-events: none;
-    filter: blur(36px);
-    opacity: 0.9;
-    will-change: transform, opacity;
-  }
-
-  .hero-aura--left {
-    background: radial-gradient(ellipse at 32% 42%, rgba(6, 182, 212, 0.18) 0%, rgba(6, 182, 212, 0.08) 28%, transparent 62%);
-  }
-
-  .hero-aura--center {
-    background: radial-gradient(ellipse at 50% 38%, rgba(37, 99, 235, 0.33) 0%, rgba(22, 139, 255, 0.14) 35%, transparent 68%);
-  }
-
-  .hero-aura--right {
-    background: radial-gradient(ellipse at 72% 44%, rgba(109, 40, 217, 0.28) 0%, rgba(124, 58, 237, 0.1) 34%, transparent 68%);
   }
 
   .hero-portrait-badges {
@@ -241,31 +297,32 @@
     pointer-events: none;
   }
 
-  .hero-skill-badge {
+  .hero-skill-badge-position {
     position: absolute;
+    pointer-events: none;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .hero-skill-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.72rem 1.15rem;
-    font-size: 0.8125rem;
+    gap: 0.5625rem;
+    min-height: 42px;
+    padding: 0 15px;
+    font-size: 13px;
     line-height: 1;
     font-weight: 500;
-    color: #172033;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(71, 85, 105, 0.18);
+    color: #e8eef9;
+    background: rgba(6, 13, 30, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 999px;
-    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     white-space: nowrap;
     pointer-events: none;
     max-width: min(54vw, 200px);
-  }
-
-  .dark .hero-skill-badge {
-    color: #e8eef9;
-    background: rgba(8, 15, 35, 0.68);
-    border-color: rgba(148, 163, 184, 0.18);
+    opacity: 1;
+    animation: hero-badge-float var(--badge-duration) ease-in-out infinite;
+    animation-delay: var(--badge-delay);
   }
 
   .hero-skill-badge__icon {
@@ -277,19 +334,28 @@
   }
 
   .hero-skill-badge__icon svg {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 18px;
+    height: 18px;
     display: block;
+  }
+
+  @keyframes hero-badge-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
   }
 
   @media (max-width: 1023px) {
     .hero-portrait-scene {
-      width: min(100%, 560px);
-      aspect-ratio: 1.12 / 1;
+      width: min(100%, 520px);
     }
 
-    .hero-portrait-stage {
-      width: min(82%, 480px);
+    .hero-artwork {
+      aspect-ratio: auto;
+    }
+
+    .hero-artwork-window {
+      position: relative;
+      aspect-ratio: 1.08 / 1;
     }
 
     .hero-portrait-badges {
@@ -298,43 +364,42 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.55rem 0.75rem;
-      margin-top: 1rem;
-      padding-bottom: 0.5rem;
+      align-items: center;
+      gap: 8px 10px;
+      margin-top: 0.75rem;
+      padding-bottom: 0.25rem;
     }
 
-    .hero-skill-badge {
+    .hero-skill-badge-position {
       position: relative;
       inset: auto !important;
       left: auto !important;
       right: auto !important;
       top: auto !important;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hero-skill-badge {
       width: auto;
       max-width: none;
-      font-size: 0.75rem;
-      padding: 0.58rem 0.9rem;
+      min-height: 36px;
+      font-size: 12px;
+      padding: 0 12px;
+      animation: none;
     }
   }
 
   @media (max-width: 767px) {
     .hero-portrait-scene {
-      width: min(100%, 420px);
-      aspect-ratio: 1.05 / 1;
+      width: min(100%, 480px);
     }
 
-    .hero-portrait-stage {
-      width: min(100%, 360px);
-    }
+  }
 
+  @media (prefers-reduced-motion: reduce) {
     .hero-skill-badge {
-      font-size: 0.6875rem;
-      padding: 0.52rem 0.72rem;
-      gap: 0.5rem;
-    }
-
-    .hero-skill-badge__icon svg {
-      width: 0.75rem;
-      height: 0.75rem;
+      animation: none;
     }
   }
 }

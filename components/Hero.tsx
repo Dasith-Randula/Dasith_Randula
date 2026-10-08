@@ -1,8 +1,8 @@
 'use client'
 
-import { useRef, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 import Image from 'next/image'
-import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Download, Rocket, Mail, Code2, BrainCircuit, BarChart3, Cpu } from 'lucide-react'
 
 function LinkedInIcon() {
@@ -39,132 +39,67 @@ function FlutterLogoIcon() {
 const roles = ['Flutter Developer', 'Full-Stack Developer', 'AI Enthusiast', 'IoT Explorer']
 
 const skillBadges = [
-  { label: 'Full Stack', icon: Code2, color: '#7C3AED', left: '5%', top: '14%' },
-  { label: 'Artificial Intelligence', icon: BrainCircuit, color: '#C084FC', left: 'auto', right: '0%', top: '15%' },
-  { label: 'Machine Learning', icon: BarChart3, color: '#38BDF8', left: '0%', top: '43%' },
-  { label: 'Flutter Dev', icon: FlutterLogoIcon, color: '#38BDF8', left: 'auto', right: '0%', top: '43%' },
-  { label: 'IoT', icon: Cpu, color: '#22D3EE', left: 'auto', right: '1%', top: '68%' },
+  { label: 'Full Stack', icon: Code2, color: '#8B5CF6', left: '5%', top: '12%' },
+  { label: 'Artificial Intelligence', icon: BrainCircuit, color: '#C084FC', left: 'auto', right: '0%', top: '13%' },
+  { label: 'Machine Learning', icon: BarChart3, color: '#38BDF8', left: '-6%', top: '38%' },
+  { label: 'Flutter Dev', icon: FlutterLogoIcon, color: '#38BDF8', left: 'auto', right: '0%', top: '41%' },
+  { label: 'IoT', icon: Cpu, color: '#22D3EE', left: 'auto', right: '1%', top: '65%' },
 ]
 
 function HeroPortrait() {
-  const containerRef = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
 
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const rotateX = useSpring(useTransform(mouseY, [-180, 180], [5, -5]), { stiffness: 120, damping: 20 })
-  const rotateY = useSpring(useTransform(mouseX, [-180, 180], [-5, 5]), { stiffness: 120, damping: 20 })
-  const auraX = useTransform(mouseX, [-180, 180], [-8, 8])
-  const auraY = useTransform(mouseY, [-180, 180], [-10, 10])
-  const portraitX = useTransform(mouseX, [-180, 180], [-3, 3])
-  const portraitY = useTransform(mouseY, [-180, 180], [-4, 4])
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (reduceMotion) return
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    mouseX.set(e.clientX - cx)
-    mouseY.set(e.clientY - cy)
-  }
-
-  function handleMouseLeave() {
-    mouseX.set(0)
-    mouseY.set(0)
-  }
-
   return (
-    <div
-      ref={containerRef}
-      className="hero-portrait-scene"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ perspective: '1200px' }}
-    >
-      <motion.div
-        className="hero-aura hero-aura--left"
-        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
-        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.9, 1, 0.82], scale: [1, 1.05, 1], x: [0, 6, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="hero-aura hero-aura--center"
-        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
-        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.75, 0.95, 0.8], scale: [1, 1.04, 1], x: [0, -5, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="hero-aura hero-aura--right"
-        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
-        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.7, 0.9, 0.75], scale: [1, 1.06, 1], x: [0, 4, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden="true"
-      />
-
-      <motion.div
-        className="hero-portrait-stage"
-        style={{
-          rotateX: reduceMotion ? 0 : rotateX,
-          rotateY: reduceMotion ? 0 : rotateY,
-          x: reduceMotion ? 0 : portraitX,
-          y: reduceMotion ? 0 : portraitY,
-          transformStyle: 'preserve-3d',
-        }}
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: reduceMotion ? 0.25 : 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-      >
-        <div className="hero-portrait-image-shell">
-          <Image
-            src="/images/hero-profile.png"
-            alt="Dasith Randula wearing a navy blazer and white shirt."
-            width={920}
-            height={1180}
-            priority
-            className="hero-portrait-image"
-            unoptimized={false}
-          />
+    <div className="hero-portrait-scene">
+      <div className="hero-artwork">
+        <div className="hero-artwork-window">
+          <div className="hero-aura" aria-hidden="true">
+            <span className="hero-aura-blue" />
+            <span className="hero-aura-violet" />
+            <span className="hero-aura-cyan" />
+          </div>
+          <motion.div
+            className="hero-portrait-stage"
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          >
+            <div className="hero-portrait-image-shell">
+              <Image
+                src="/images/hero-profile.png"
+                alt="Dasith Randula wearing a navy blazer and white shirt."
+                width={1507}
+                height={1044}
+                priority
+                className="hero-portrait-image"
+              />
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
 
-      <div className="hero-portrait-badges" aria-hidden="false">
-        {skillBadges.map(({ label, icon: Icon, color, left, right, top }, index) => {
-          const badgeStyle = {
-            left,
-            right,
-            top,
-            ['--badge-accent' as string]: color,
-          } as CSSProperties
+        <div className="hero-portrait-badges" aria-hidden="false">
+          {skillBadges.map(({ label, icon: Icon, color, left, right, top }, index) => {
+            const badgeStyle = {
+              left,
+              right,
+              top,
+              ['--badge-accent' as string]: color,
+              ['--badge-delay' as string]: [`0s`, `-2s`, `-3s`, `-1s`, `-4s`][index],
+              ['--badge-duration' as string]: [`6s`, `7s`, `6.5s`, `7.5s`, `8s`][index],
+            } as CSSProperties
 
-          return (
-            <motion.div
-              key={label}
-              className="hero-skill-badge"
-              style={badgeStyle}
-              initial={{ opacity: 0, y: 8 }}
-              animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, -3, 0] }}
-              transition={
-                reduceMotion
-                  ? { duration: 0.2, ease: 'easeOut' }
-                  : {
-                      duration: [5.5, 6.2, 6.8, 7.4, 8][index],
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: index * 0.12,
-                    }
-              }
-            >
-              <span aria-hidden="true" className="hero-skill-badge__icon">
-                <Icon />
-              </span>
-              <span>{label}</span>
-            </motion.div>
-          )
-        })}
+            return (
+              <div key={label} className="hero-skill-badge-position" style={badgeStyle}>
+                <div className="hero-skill-badge">
+                  <span aria-hidden="true" className="hero-skill-badge__icon">
+                    <Icon />
+                  </span>
+                  <span>{label}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
@@ -179,7 +114,7 @@ export function Hero() {
       <div className="max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — text */}
-          <div className="order-2 lg:order-1">
+          <div className="order-1 lg:order-1">
             {/* Hello badge */}
             <motion.div
               className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-muted-foreground mb-6"
@@ -307,14 +242,9 @@ export function Hero() {
           </div>
 
           {/* Right — profile image */}
-          <motion.div
-            className="order-1 lg:order-2 flex justify-center"
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' }}
-          >
+          <div className="order-2 lg:order-2 flex justify-center">
             <HeroPortrait />
-          </motion.div>
+          </div>
         </div>
       </div>
 
