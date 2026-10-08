@@ -15,7 +15,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Dasith Randula | Software Engineering Undergraduate',
+  title: 'Dasith Randula',
   description:
     'Portfolio of Dasith Randula — Flutter Developer, Full-Stack Developer, AI & IoT Enthusiast building intelligent digital solutions.',
   keywords: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Dasith Randula' }],
   openGraph: {
-    title: 'Dasith Randula | Software Engineering Undergraduate',
+    title: 'Dasith Randula',
     description: 'Building intelligent digital solutions through software engineering, AI, mobile apps, cloud, and IoT.',
     type: 'website',
   },
