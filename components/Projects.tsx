@@ -1,14 +1,129 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, ChevronLeft, ChevronRight, Smartphone, Brain, Cpu, FlaskConical } from 'lucide-react'
+import { ExternalLink, ChevronLeft, ChevronRight, Smartphone, Brain, Cpu, FlaskConical, Server, Network } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 function GithubIcon({ size = 15 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <svg className="w-4 h-4" viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
       <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
     </svg>
+  )
+}
+
+function GithubButton({ href, color }: { href: string; color: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex w-fit h-10 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:brightness-110"
+      style={{ background: color }}
+    >
+      <GithubIcon size={16} />
+      View on GitHub
+    </a>
+  )
+}
+
+type GalleryImage = {
+  src: string
+  alt: string
+  caption: string
+}
+
+function ProjectImageGallery({
+  images,
+  accent,
+  variant = 'default',
+}: {
+  images: GalleryImage[]
+  accent: string
+  variant?: 'default' | 'threadwise'
+}) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const current = images[currentIndex]
+
+  const move = (direction: -1 | 1) => {
+    setCurrentIndex((index) => (index + direction + images.length) % images.length)
+  }
+
+  return (
+    <div
+      className={`relative flex w-full items-center justify-center overflow-hidden bg-transparent ${
+        variant === 'threadwise' ? 'aspect-[4/3]' : 'aspect-video'
+      }`}
+    >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current.src}
+          className="relative flex h-full w-full items-center justify-center overflow-hidden bg-transparent"
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.25 }}
+        >
+          <div
+            className={`inline-flex max-h-full max-w-full overflow-hidden rounded-[12px] ${
+              variant === 'threadwise' ? 'w-[97%]' : ''
+            }`}
+          >
+            <Image
+              src={current.src}
+              alt={current.alt}
+              width={current.src.includes('/Threadwise/') ? 1448 : 1917}
+              height={current.src.includes('/Threadwise/') ? 1086 : 916}
+              className={`block h-auto max-h-full max-w-full rounded-[12px] object-contain ${
+                variant === 'threadwise' ? 'w-full' : 'w-auto'
+              }`}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={90}
+              priority={currentIndex === 0}
+            />
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => move(-1)}
+            aria-label="Previous project screenshot"
+            className="absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-xl bg-slate-950/45 text-slate-200 transition hover:bg-slate-950/70"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={() => move(1)}
+            aria-label="Next project screenshot"
+            className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-xl bg-slate-950/45 text-slate-200 transition hover:bg-slate-950/70"
+          >
+            <ChevronRight size={16} />
+          </button>
+          <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {images.map((image, index) => (
+              <button
+                type="button"
+                key={image.src}
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Show ${image.caption} screenshot`}
+                className="h-1.5 w-1.5 rounded-full transition"
+                style={{ background: index === currentIndex ? accent : 'rgba(148,163,184,0.45)' }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      <span className="absolute bottom-2 left-3 rounded-md bg-slate-950/45 px-2 py-1 text-[10px] text-slate-200">
+        {current.caption}
+      </span>
+    </div>
   )
 }
 
@@ -51,6 +166,62 @@ const lsmScreenshots = [
     label: 'Orders',
   },
 ]
+
+const threadwiseScreenshots: GalleryImage[] = [
+  { src: '/images/Threadwise/home.png', alt: 'Threadwise home page', caption: 'Home' },
+  { src: '/images/Threadwise/explore.png', alt: 'Threadwise fashion exploration page', caption: 'Fashion Exploration' },
+  { src: '/images/Threadwise/design studio.png', alt: 'Threadwise design studio', caption: 'Design Studio' },
+  { src: '/images/Threadwise/forecast.png', alt: 'Threadwise demand forecasting page', caption: 'Demand Forecasting' },
+  { src: '/images/Threadwise/my design.png', alt: 'Threadwise saved designs page', caption: 'My Designs' },
+  { src: '/images/Threadwise/about us.png', alt: 'About Threadwise page', caption: 'About Threadwise' },
+  { src: '/images/Threadwise/contacts.png', alt: 'Threadwise contact page', caption: 'Contact' },
+]
+
+const smartCareRiskScreenshots: GalleryImage[] = [
+  { src: '/images/smartcare-disease-risk-ai/Home.png', alt: 'SmartCare Disease Risk AI home page', caption: 'Home' },
+  { src: '/images/smartcare-disease-risk-ai/Prediction.png', alt: 'SmartCare disease risk prediction page', caption: 'Disease Risk Prediction' },
+]
+
+const ogbnScreenshot: GalleryImage[] = [
+  {
+    src: '/images/OGBN-Arxiv Graph Intelligence/OGBN-Arxiv Graph Intelligence.png',
+    alt: 'OGBN-Arxiv Graph Intelligence dashboard',
+    caption: 'Graph Intelligence Dashboard',
+  },
+]
+
+function BackendArchitectureVisual() {
+  const nodes = [
+    { label: 'REST API', className: 'left-4 top-8' },
+    { label: 'Service Layer', className: 'right-4 top-8' },
+    { label: 'JPA / Hibernate', className: 'left-4 bottom-8' },
+    { label: 'MySQL', className: 'right-4 bottom-8' },
+  ]
+
+  return (
+    <div className="relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-2xl bg-[#020817] p-5">
+      <div className="backend-architecture-glow absolute inset-1/4 rounded-full bg-emerald-400/15 blur-2xl" />
+      <div className="backend-architecture-lines absolute inset-0" aria-hidden="true">
+        <span className="absolute left-[28%] top-[36%] h-px w-[20%] rotate-[16deg] bg-emerald-400/50" />
+        <span className="absolute right-[28%] top-[36%] h-px w-[20%] -rotate-[16deg] bg-teal-300/50" />
+        <span className="absolute bottom-[36%] left-[28%] h-px w-[20%] -rotate-[16deg] bg-emerald-400/50" />
+        <span className="absolute bottom-[36%] right-[28%] h-px w-[20%] rotate-[16deg] bg-teal-300/50" />
+      </div>
+      {nodes.map((node) => (
+        <div
+          key={node.label}
+          className={`absolute ${node.className} rounded-xl border border-emerald-300/25 bg-slate-900/85 px-2.5 py-2 text-center text-[10px] font-medium text-emerald-100`}
+        >
+          {node.label}
+        </div>
+      ))}
+      <div className="backend-architecture-server relative z-10 flex h-24 w-24 flex-col items-center justify-center rounded-2xl border border-emerald-300/40 bg-emerald-950/80 text-emerald-100 shadow-[0_0_35px_rgba(16,185,129,0.25)]">
+        <Server size={30} />
+        <span className="mt-1 text-[10px] font-semibold">Spring Boot</span>
+      </div>
+    </div>
+  )
+}
 
 function PhoneMockup({ src, label }: { src: string; label: string }) {
   return (
@@ -170,13 +341,13 @@ function LankaSmartMartProject() {
           <p className="text-xs text-muted-foreground mb-4">Sep 2025 – Feb 2026</p>
 
           <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
-            A full-featured Flutter grocery delivery mobile application for Sri Lanka. Features
-            real-time product browsing, smart cart management, multi-payment checkout, and Firebase-powered
-            backend — delivering freshness to your doorstep.
+            Developed a Flutter-based grocery shopping application with user authentication, product browsing,
+            cart management, and order-related features. Integrated Firebase services for cloud data
+            synchronization and notifications, with SQLite supporting local data storage.
           </p>
 
           <div className="flex flex-wrap gap-2 mb-6">
-            {['Flutter', 'Dart', 'Firebase Auth', 'Firestore', 'SQLite', 'FCM'].map((t) => (
+            {['Flutter', 'Dart', 'Firebase Authentication', 'Cloud Firestore', 'SQLite', 'Firebase Cloud Messaging'].map((t) => (
               <span
                 key={t}
                 className="text-xs px-2.5 py-1 rounded-lg font-medium"
@@ -187,16 +358,9 @@ function LankaSmartMartProject() {
             ))}
           </div>
 
-          <a
-            href="https://github.com/Dasith-Randula/lanka-smart-mart.git"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white self-start transition-all hover:scale-105"
-            style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)' }}
-          >
-                <GithubIcon size={15} />
-            View on GitHub
-          </a>
+          <div className="flex w-full flex-wrap items-center gap-3">
+            <GithubButton href="https://github.com/Dasith-Randula/lanka-smart-mart.git" color="#16A34A" />
+          </div>
         </div>
       </div>
     </motion.div>
@@ -312,12 +476,12 @@ function DevInsightProject() {
           <p className="text-xs text-muted-foreground mb-4">Currently Developing</p>
 
           <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
-            An AI-powered GitHub analytics platform that measures developer productivity using
-            machine learning models. Provides intelligent insights, activity scoring, and predictive
-            analytics for software engineers and teams.
+            Leading the development of a software engineering analytics platform that uses GitHub repository
+            and development activity data to support project risk analysis. Working on data processing and
+            machine learning pipelines alongside a Flutter Web dashboard for presenting project insights.
           </p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-5">
             {['Python', 'Scikit-learn', 'XGBoost', 'GitHub API', 'Flutter Web', 'Supabase'].map((t) => (
               <span
                 key={t}
@@ -327,6 +491,9 @@ function DevInsightProject() {
                 {t}
               </span>
             ))}
+          </div>
+          <div className="flex w-full flex-wrap items-center gap-3">
+            <GithubButton href="https://github.com/Dasith-Randula/DevInsight-AI" color="#7C3AED" />
           </div>
         </div>
       </div>
@@ -409,12 +576,11 @@ function MIMORobotProject() {
           <p className="text-xs text-muted-foreground mb-4">Jun 2025 – Nov 2025</p>
 
           <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
-            An AI companion robot powered by ESP32 with emotion recognition, voice interaction,
-            and real-time environmental sensing. MIMO combines embedded systems with AI to
-            create an intelligent, responsive personal robot companion.
+            Developed an ESP32 and Arduino-based embedded AI robot for interactive sensing and automation,
+            combining sensors, embedded C, and IoT components while preserving its verified project functionality.
           </p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-5">
             {['ESP32', 'Arduino', 'IoT', 'Embedded C', 'AI', 'Sensors'].map((t) => (
               <span
                 key={t}
@@ -443,42 +609,7 @@ function XAIFashionProject() {
     >
       <div className="grid md:grid-cols-2 gap-8 items-center">
         {/* Visual */}
-        <div
-          className="rounded-2xl p-6 flex items-center justify-center min-h-[200px] relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.08), rgba(124,58,237,0.08))' }}
-        >
-          <div className="text-center relative z-10">
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-              style={{ background: 'linear-gradient(135deg, #EC4899, #7C3AED)' }}
-            >
-              <FlaskConical size={28} className="text-white" />
-            </div>
-            <div className="flex flex-wrap justify-center gap-1.5">
-              {['XAI', 'GAN', 'CNN', 'SHAP', 'LIME'].map((t) => (
-                <span
-                  key={t}
-                  className="text-xs px-2 py-0.5 rounded-md font-mono"
-                  style={{ background: 'rgba(236,72,153,0.15)', color: '#EC4899' }}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-          {/* Decorative dots */}
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full opacity-40"
-              style={{
-                background: ['#EC4899', '#7C3AED'][i % 2],
-                left: `${10 + i * 11}%`,
-                top: `${20 + (i % 3) * 25}%`,
-              }}
-            />
-          ))}
-        </div>
+        <ProjectImageGallery images={threadwiseScreenshots} accent="#DB2777" variant="threadwise" />
 
         {/* Info */}
         <div>
@@ -494,18 +625,19 @@ function XAIFashionProject() {
             className="text-2xl font-bold text-foreground mb-2"
             style={{ fontFamily: 'Space Grotesk, sans-serif' }}
           >
-            XAI Fashion Design
+            Threadwise – Explainable AI Fashion Decision-Support Platform
           </h3>
-          <p className="text-xs text-muted-foreground mb-4">Currently Developing</p>
+          <p className="text-xs text-muted-foreground mb-4">          Completed Research Work</p>
 
           <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
-            A deep learning research project focused on explainable AI-driven fashion design and
-            demand-aware optimization. Uses generative models with interpretability layers to
-            understand design decisions.
+            Developed a React and FastAPI-based platform integrating machine learning into fashion analysis.
+            Processed 42,755 DeepFashion images and generated 512-dimensional CLIP embeddings for visual
+            similarity analysis, while incorporating XGBoost and SHAP for demand-related predictions and
+            explainable insights.
           </p>
 
-          <div className="flex flex-wrap gap-2">
-            {['Python', 'Deep Learning', 'Generative AI', 'XAI', 'ML'].map((t) => (
+          <div className="flex flex-wrap gap-2 mb-5">
+            {['React', 'TypeScript', 'FastAPI', 'Python', 'CLIP', 'XGBoost', 'SHAP'].map((t) => (
               <span
                 key={t}
                 className="text-xs px-2.5 py-1 rounded-lg font-medium"
@@ -514,6 +646,98 @@ function XAIFashionProject() {
                 {t}
               </span>
             ))}
+          </div>
+          <div className="flex w-full flex-wrap items-center gap-3">
+            <GithubButton href="https://github.com/Dasith-Randula/Explainable-Fashion-Design-AI" color="#DB2777" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+function AdditionalProject({
+  title,
+  category,
+  year,
+  description,
+  technologies,
+  color,
+  icon: Icon,
+  github,
+  demo,
+  media,
+}: {
+  title: string
+  category: string
+  year: string
+  description: string
+  technologies: string[]
+  color: string
+  icon: LucideIcon
+  github?: string
+  demo?: string
+  media?: ReactNode
+}) {
+  return (
+    <motion.div
+      className="glass rounded-3xl p-8"
+      data-cursor-card
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+    >
+      <div className="grid md:grid-cols-[0.8fr_1.2fr] gap-8 items-center">
+        {media ?? (
+          <div
+            className="rounded-2xl p-8 flex items-center justify-center min-h-[190px]"
+            style={{ background: `linear-gradient(135deg, ${color}12, rgba(124,58,237,0.08))` }}
+          >
+            <div
+              className="w-20 h-20 rounded-2xl flex items-center justify-center"
+              style={{ background: `linear-gradient(135deg, ${color}, #7C3AED)` }}
+            >
+              <Icon size={34} className="text-white" />
+            </div>
+          </div>
+        )}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <Icon size={16} style={{ color }} />
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color }}>
+              {category}
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-foreground mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            {title}
+          </h3>
+          <p className="text-xs text-muted-foreground mb-4">{year}</p>
+          <p className="text-muted-foreground leading-relaxed mb-5 text-sm">{description}</p>
+          <div className="flex flex-wrap gap-2 mb-5">
+            {technologies.map((technology) => (
+              <span
+                key={technology}
+                className="text-xs px-2.5 py-1 rounded-lg font-medium"
+                style={{ background: `${color}18`, color }}
+              >
+                {technology}
+              </span>
+            ))}
+          </div>
+          <div className="flex w-full flex-wrap items-center gap-3 mt-5">
+            {github && <GithubButton href={github} color={color} />}
+            {demo && (
+              <a
+                href={demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit h-10 items-center justify-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 hover:bg-white/5"
+                style={{ borderColor: `${color}80`, color }}
+              >
+                <ExternalLink size={16} /> Live Demo
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -545,6 +769,40 @@ export function Projects() {
           <DevInsightProject />
           <MIMORobotProject />
           <XAIFashionProject />
+          <AdditionalProject
+            title="SmartCare Hospital Management System"
+            category="Java Backend Development"
+            year="2026"
+            description="Developed a hospital management backend using Java and Spring Boot to manage healthcare operations through structured REST APIs. Implemented database persistence, CRUD operations, validation, business logic, and exception handling using a layered architecture, with API testing performed through Postman."
+            technologies={['Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'MySQL', 'Maven', 'REST APIs', 'Postman']}
+            color="#059669"
+            icon={Server}
+            github="https://github.com/Dasith-Randula/SmartCare-Hospital-Management-System"
+            media={<BackendArchitectureVisual />}
+          />
+          <AdditionalProject
+            title="OGBN-Arxiv Graph Intelligence"
+            category="Graph Neural Networks / Deep Learning"
+            year="2026"
+            description="Developed and evaluated GCN and GraphSAGE models for research paper classification using the OGBN-Arxiv citation network. Applied graph preprocessing, hyperparameter tuning, and performance evaluation, and built a Streamlit dashboard to visualize model results, graph statistics, node predictions, and embeddings."
+            technologies={['Python', 'PyTorch', 'PyTorch Geometric', 'GCN', 'GraphSAGE', 'Scikit-learn', 'Streamlit']}
+            color="#EA580C"
+            icon={Network}
+            github="https://github.com/Dasith-Randula/ogbn-arxiv-graph-intelligence"
+            demo="https://arxivgraph-ai.streamlit.app/"
+            media={<ProjectImageGallery images={ogbnScreenshot} accent="#EA580C" />}
+          />
+          <AdditionalProject
+            title="SmartCare Disease Risk AI"
+            category="Machine Learning / Healthcare"
+            year="2026"
+            description="Developed a machine learning system for classifying hospital patients into Low, Medium, and High disease-risk categories. Applied data preprocessing and model evaluation techniques, with a Streamlit interface for presenting predictions and supporting model interpretation."
+            technologies={['Python', 'Scikit-learn', 'XGBoost', 'Pandas', 'NumPy', 'SHAP', 'Streamlit']}
+            color="#DB2777"
+            icon={Brain}
+            github="https://github.com/Dasith-Randula/smartcare-disease-risk-ai"
+            media={<ProjectImageGallery images={smartCareRiskScreenshots} accent="#DB2777" />}
+          />
         </div>
       </div>
     </section>

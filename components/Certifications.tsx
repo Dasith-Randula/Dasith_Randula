@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import { Award, ExternalLink } from 'lucide-react'
 
-const MICROSOFT_LOGO = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-lykUmgExHLdGT4oum5MHqfey7E9hzH.png'
-const IBM_LOGO = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-LloHFlCr17zbBEzpBF96VuWjixx9Pt.png'
+const MICROSOFT_LOGO = '/images/microsoft-logo.png'
+const IBM_LOGO = '/images/ibm-logo.png'
 const UOM_LOGO = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3sQ4PS46c1NTiDKSHYL1MoDosJD4MT.png'
 
 const certs = [

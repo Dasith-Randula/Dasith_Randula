@@ -5,8 +5,21 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { Calendar } from 'lucide-react'
 
 const SLTC_LOGO = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sltc-logo-KN8I0NgTWEyjlmjar5up9Q8VzNAdRD.png'
+const MICROSOFT_STUDENT_AMBASSADOR_LOGO = '/images/microsoft-student-ambassador.png'
 
 const experiences = [
+  {
+    role: 'Student Ambassador',
+    org: 'Microsoft Student Ambassadors',
+    duration: 'October 2026 – Present',
+    type: 'Community Achievement',
+    color: '#0078D4',
+    logo: MICROSOFT_STUDENT_AMBASSADOR_LOGO,
+    description:
+      'Selected to join the Microsoft Student Ambassadors community, connecting with students and developers while exploring Microsoft technologies, technical learning, and knowledge-sharing opportunities.',
+    current: true,
+    side: 'left' as const,
+  },
   {
     role: 'IT Faculty Representative',
     org: 'SLTC Research University',

@@ -39,17 +39,20 @@ export function About() {
           >
             <div className="glass rounded-3xl p-8">
               <p className="text-muted-foreground leading-relaxed mb-6 text-base">
-                Software Engineering undergraduate at SLTC Research University, passionate about building
-                innovative software solutions that combine modern technologies with real-world applications.
+                I&apos;m a Software Engineering undergraduate at SLTC Research University, currently in my final year.
+                My interests include full-stack development, mobile applications, artificial intelligence, and
+                machine learning.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6 text-base">
-                Experienced in mobile development, full-stack systems, AI solutions, cloud technologies,
-                and IoT projects. I thrive at the intersection of creativity and engineering, turning
-                complex problems into elegant digital experiences.
+                Through academic and team projects, I&apos;ve worked on software systems ranging from mobile
+                applications and REST APIs to predictive machine learning and graph neural networks. I enjoy
+                working across different parts of a project, from understanding the problem to developing and
+                testing a solution.
               </p>
               <p className="text-muted-foreground leading-relaxed text-base">
-                My goal is to build intelligent, scalable solutions that make a real difference —
-                from Flutter mobile apps to AI-powered platforms and embedded systems.
+                Alongside technical development, I actively participate in student leadership and technology
+                communities. As a Microsoft Student Ambassador, I look forward to learning more about Microsoft
+                technologies and sharing useful knowledge with other students.
               </p>
             </div>
           </motion.div>

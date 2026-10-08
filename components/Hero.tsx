@@ -80,9 +80,9 @@ function HeroPortrait() {
         <div className="hero-portrait-badges" aria-hidden="false">
           {skillBadges.map(({ label, icon: Icon, color, left, right, top }, index) => {
             const badgeStyle = {
-              left,
+              left: label === 'Machine Learning' ? 'calc(-6% - 65px)' : left,
               right,
-              top,
+              top: label === 'Machine Learning' ? 'calc(38% - 15px)' : top,
               ['--badge-accent' as string]: color,
               ['--badge-delay' as string]: [`0s`, `-2s`, `-3s`, `-1s`, `-4s`][index],
               ['--badge-duration' as string]: [`6s`, `7s`, `6.5s`, `7.5s`, `8s`][index],
@@ -185,8 +185,8 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
             >
-              I build intelligent, scalable and user-friendly digital solutions combining modern
-              technologies with creative problem solving.
+              I develop practical software solutions across full-stack development, mobile applications,
+              and AI/ML, turning ideas into working applications.
             </motion.p>
 
             {/* CTA Buttons */}

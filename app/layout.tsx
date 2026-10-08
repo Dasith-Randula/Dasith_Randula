@@ -44,7 +44,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`bg-background ${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`bg-background ${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   )
