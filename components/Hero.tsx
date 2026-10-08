@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Download, Rocket, Mail } from 'lucide-react'
+import { useRef, type CSSProperties } from 'react'
+import Image from 'next/image'
+import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from 'framer-motion'
+import { Download, Rocket, Mail, Code2, BrainCircuit, BarChart3, Cpu } from 'lucide-react'
 
 function LinkedInIcon() {
   return (
@@ -27,18 +28,40 @@ function XIcon() {
   )
 }
 
+function FlutterLogoIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor">
+      <path d="M14.8 2h4.2L9.8 11.1l4.4 4.5H9.8l-4.4-4.5L14.8 2zm-.6 9.9h4.2L9.1 22H4.8l9.4-9.1zm1.6 0 4.5 4.2H9.8l-4.4-4.2h10.4z" />
+    </svg>
+  )
+}
+
 const roles = ['Flutter Developer', 'Full-Stack Developer', 'AI Enthusiast', 'IoT Explorer']
 
-function ProfileImage() {
+const skillBadges = [
+  { label: 'Full Stack', icon: Code2, color: '#7C3AED', left: '5%', top: '14%' },
+  { label: 'Artificial Intelligence', icon: BrainCircuit, color: '#C084FC', left: 'auto', right: '0%', top: '15%' },
+  { label: 'Machine Learning', icon: BarChart3, color: '#38BDF8', left: '0%', top: '43%' },
+  { label: 'Flutter Dev', icon: FlutterLogoIcon, color: '#38BDF8', left: 'auto', right: '0%', top: '43%' },
+  { label: 'IoT', icon: Cpu, color: '#22D3EE', left: 'auto', right: '1%', top: '68%' },
+]
+
+function HeroPortrait() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
-  const rotateX = useSpring(useTransform(mouseY, [-150, 150], [6, -6]), { stiffness: 120, damping: 20 })
-  const rotateY = useSpring(useTransform(mouseX, [-150, 150], [-6, 6]), { stiffness: 120, damping: 20 })
+  const rotateX = useSpring(useTransform(mouseY, [-180, 180], [5, -5]), { stiffness: 120, damping: 20 })
+  const rotateY = useSpring(useTransform(mouseX, [-180, 180], [-5, 5]), { stiffness: 120, damping: 20 })
+  const auraX = useTransform(mouseX, [-180, 180], [-8, 8])
+  const auraY = useTransform(mouseY, [-180, 180], [-10, 10])
+  const portraitX = useTransform(mouseX, [-180, 180], [-3, 3])
+  const portraitY = useTransform(mouseY, [-180, 180], [-4, 4])
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduceMotion) return
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
     const cx = rect.left + rect.width / 2
@@ -55,104 +78,94 @@ function ProfileImage() {
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center justify-center"
+      className="hero-portrait-scene"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ perspective: '1000px' }}
+      style={{ perspective: '1200px' }}
     >
-      {/* Ambient glow layers — no solid filled circles */}
-      <div
-        className="absolute rounded-full"
-        style={{
-          width: '420px',
-          height: '420px',
-          background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, rgba(124,58,237,0.10) 50%, rgba(6,182,212,0.06) 75%, transparent 100%)',
-          filter: 'blur(24px)',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width: '340px',
-          height: '340px',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)',
-          filter: 'blur(16px)',
-        }}
-      />
-
-      {/* Floating frame with parallax */}
       <motion.div
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative"
+        className="hero-aura hero-aura--left"
+        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
+        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.9, 1, 0.82], scale: [1, 1.05, 1], x: [0, 6, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="hero-aura hero-aura--center"
+        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
+        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.75, 0.95, 0.8], scale: [1, 1.04, 1], x: [0, -5, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="hero-aura hero-aura--right"
+        style={{ x: reduceMotion ? 0 : auraX, y: reduceMotion ? 0 : auraY }}
+        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.7, 0.9, 0.75], scale: [1, 1.06, 1], x: [0, 4, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        aria-hidden="true"
+      />
+
+      <motion.div
+        className="hero-portrait-stage"
+        style={{
+          rotateX: reduceMotion ? 0 : rotateX,
+          rotateY: reduceMotion ? 0 : rotateY,
+          x: reduceMotion ? 0 : portraitX,
+          y: reduceMotion ? 0 : portraitY,
+          transformStyle: 'preserve-3d',
+        }}
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: reduceMotion ? 0.25 : 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
       >
-        {/* Gradient border ring — conic */}
-        <div
-          className="absolute -inset-[3px] rounded-full"
-          style={{
-            background: 'conic-gradient(from 0deg, rgba(37,99,235,0.55), rgba(124,58,237,0.45), rgba(6,182,212,0.55), rgba(37,99,235,0.55))',
-            borderRadius: '50%',
-          }}
-        />
-
-        {/* Soft outer shadow glow */}
-        <div
-          className="absolute -inset-[3px] rounded-full"
-          style={{
-            boxShadow: '0 0 40px rgba(37,99,235,0.18), 0 0 80px rgba(124,58,237,0.10), 0 0 120px rgba(6,182,212,0.06)',
-            borderRadius: '50%',
-          }}
-        />
-
-        {/* Glass inner ring */}
-        <div
-          className="absolute inset-0 rounded-full z-20"
-          style={{
-            backdropFilter: 'blur(0px)',
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.06)',
-            borderRadius: '50%',
-          }}
-        />
-
-        {/* Profile image — no filters, no colour grading */}
-        <div
-          className="relative w-72 h-72 md:w-80 md:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden"
-          style={{ background: 'rgba(255,255,255,0.04)' }}
-        >
-          <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/profile-tgRP3m5KBi4uWOlpgpmdVdZSB45t6S.png"
-            alt="Dasith Randula — Software Engineering Undergraduate"
-            className="w-full h-full"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'center 8%',
-              filter: 'none',
-              imageRendering: 'auto',
-            }}
-            draggable={false}
+        <div className="hero-portrait-image-shell">
+          <Image
+            src="/images/hero-profile.png"
+            alt="Dasith Randula wearing a navy blazer and white shirt."
+            width={920}
+            height={1180}
+            priority
+            className="hero-portrait-image"
+            unoptimized={false}
           />
         </div>
       </motion.div>
 
-      {/* Floating badge — Flutter */}
-      <motion.div
-        className="absolute left-0 top-1/4 glass rounded-xl px-3 py-2 text-xs font-semibold text-foreground z-30"
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <span style={{ color: '#2563EB' }}>Flutter</span> Dev
-      </motion.div>
+      <div className="hero-portrait-badges" aria-hidden="false">
+        {skillBadges.map(({ label, icon: Icon, color, left, right, top }, index) => {
+          const badgeStyle = {
+            left,
+            right,
+            top,
+            ['--badge-accent' as string]: color,
+          } as CSSProperties
 
-      {/* Floating badge — AI */}
-      <motion.div
-        className="absolute right-0 bottom-1/4 glass rounded-xl px-3 py-2 text-xs font-semibold text-foreground z-30"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-      >
-        AI & <span style={{ color: '#7C3AED' }}>IoT</span>
-      </motion.div>
+          return (
+            <motion.div
+              key={label}
+              className="hero-skill-badge"
+              style={badgeStyle}
+              initial={{ opacity: 0, y: 8 }}
+              animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, -3, 0] }}
+              transition={
+                reduceMotion
+                  ? { duration: 0.2, ease: 'easeOut' }
+                  : {
+                      duration: [5.5, 6.2, 6.8, 7.4, 8][index],
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: index * 0.12,
+                    }
+              }
+            >
+              <span aria-hidden="true" className="hero-skill-badge__icon">
+                <Icon />
+              </span>
+              <span>{label}</span>
+            </motion.div>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -300,7 +313,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' }}
           >
-            <ProfileImage />
+            <HeroPortrait />
           </motion.div>
         </div>
       </div>

@@ -152,6 +152,191 @@
   .section-padding {
     @apply py-20 md:py-28 px-4 md:px-8 lg:px-16;
   }
+
+  .hero-portrait-scene {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 680px);
+    aspect-ratio: 1.08 / 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-inline: auto;
+    pointer-events: auto;
+  }
+
+  .hero-portrait-stage {
+    position: relative;
+    z-index: 2;
+    width: min(78%, 540px);
+    min-width: 260px;
+    margin-inline: auto;
+    transform-origin: center bottom;
+    will-change: transform;
+  }
+
+  .hero-portrait-image-shell {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transform: translateY(8px);
+  }
+
+  .hero-portrait-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center bottom;
+    filter: drop-shadow(0 18px 30px rgba(3, 9, 18, 0.28));
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 72%,
+      rgba(0, 0, 0, 0.9) 84%,
+      rgba(0, 0, 0, 0.45) 93%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 72%,
+      rgba(0, 0, 0, 0.9) 84%,
+      rgba(0, 0, 0, 0.45) 93%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .hero-aura {
+    position: absolute;
+    inset: 2% -12% 0 -12%;
+    z-index: 0;
+    border-radius: 46% 54% 48% 52% / 52% 44% 56% 48%;
+    pointer-events: none;
+    filter: blur(36px);
+    opacity: 0.9;
+    will-change: transform, opacity;
+  }
+
+  .hero-aura--left {
+    background: radial-gradient(ellipse at 32% 42%, rgba(6, 182, 212, 0.18) 0%, rgba(6, 182, 212, 0.08) 28%, transparent 62%);
+  }
+
+  .hero-aura--center {
+    background: radial-gradient(ellipse at 50% 38%, rgba(37, 99, 235, 0.33) 0%, rgba(22, 139, 255, 0.14) 35%, transparent 68%);
+  }
+
+  .hero-aura--right {
+    background: radial-gradient(ellipse at 72% 44%, rgba(109, 40, 217, 0.28) 0%, rgba(124, 58, 237, 0.1) 34%, transparent 68%);
+  }
+
+  .hero-portrait-badges {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero-skill-badge {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.72rem 1.15rem;
+    font-size: 0.8125rem;
+    line-height: 1;
+    font-weight: 500;
+    color: #172033;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(71, 85, 105, 0.18);
+    border-radius: 999px;
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    white-space: nowrap;
+    pointer-events: none;
+    max-width: min(54vw, 200px);
+  }
+
+  .dark .hero-skill-badge {
+    color: #e8eef9;
+    background: rgba(8, 15, 35, 0.68);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .hero-skill-badge__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--badge-accent);
+    flex-shrink: 0;
+  }
+
+  .hero-skill-badge__icon svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    display: block;
+  }
+
+  @media (max-width: 1023px) {
+    .hero-portrait-scene {
+      width: min(100%, 560px);
+      aspect-ratio: 1.12 / 1;
+    }
+
+    .hero-portrait-stage {
+      width: min(82%, 480px);
+    }
+
+    .hero-portrait-badges {
+      position: relative;
+      inset: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.55rem 0.75rem;
+      margin-top: 1rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .hero-skill-badge {
+      position: relative;
+      inset: auto !important;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      width: auto;
+      max-width: none;
+      font-size: 0.75rem;
+      padding: 0.58rem 0.9rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-portrait-scene {
+      width: min(100%, 420px);
+      aspect-ratio: 1.05 / 1;
+    }
+
+    .hero-portrait-stage {
+      width: min(100%, 360px);
+    }
+
+    .hero-skill-badge {
+      font-size: 0.6875rem;
+      padding: 0.52rem 0.72rem;
+      gap: 0.5rem;
+    }
+
+    .hero-skill-badge__icon svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
 }
 
 /* Scrollbar */
