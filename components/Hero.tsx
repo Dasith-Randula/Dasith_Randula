@@ -1,6 +1,6 @@
 'use client'
 
-import { type CSSProperties } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Download, Rocket, Mail, Code2, BrainCircuit, BarChart3, Cpu } from 'lucide-react'
@@ -36,7 +36,7 @@ function FlutterLogoIcon() {
   )
 }
 
-const roles = ['Flutter Developer', 'Full-Stack Developer', 'AI Enthusiast', 'IoT Explorer']
+const roles = ['Full-Stack Developer', 'AI / ML Enthusiast', 'Flutter Developer', 'IoT Explorer']
 
 const skillBadges = [
   { label: 'Full Stack', icon: Code2, color: '#8B5CF6', left: '5%', top: '12%' },
@@ -106,6 +106,45 @@ function HeroPortrait() {
 }
 
 export function Hero() {
+  const subtitle = 'Software Engineering Undergraduate'
+  const reduceMotion = useReducedMotion()
+  const [typedSubtitle, setTypedSubtitle] = useState(subtitle)
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setTypedSubtitle(subtitle)
+      return
+    }
+
+    let index = 0
+    let phase: 'typing' | 'holding' | 'deleting' | 'pausing' = 'typing'
+    let timeoutId: number
+    setTypedSubtitle('')
+
+    const advance = () => {
+      if (phase === 'typing') {
+        index += 1
+        setTypedSubtitle(subtitle.slice(0, index))
+        phase = index === subtitle.length ? 'holding' : 'typing'
+        timeoutId = window.setTimeout(advance, index === subtitle.length ? 2000 : 70)
+      } else if (phase === 'holding') {
+        phase = 'deleting'
+        timeoutId = window.setTimeout(advance, 40)
+      } else if (phase === 'deleting') {
+        index -= 1
+        setTypedSubtitle(subtitle.slice(0, index))
+        phase = index === 0 ? 'pausing' : 'deleting'
+        timeoutId = window.setTimeout(advance, index === 0 ? 500 : 40)
+      } else {
+        phase = 'typing'
+        timeoutId = window.setTimeout(advance, 70)
+      }
+    }
+
+    timeoutId = window.setTimeout(advance, 70)
+    return () => window.clearTimeout(timeoutId)
+  }, [reduceMotion])
+
   return (
     <section
       id="home"
@@ -117,7 +156,7 @@ export function Hero() {
           <div className="order-1 lg:order-1">
             {/* Hello badge */}
             <motion.div
-              className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-muted-foreground mb-6"
+              className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-sm text-muted-foreground mb-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -127,10 +166,9 @@ export function Hero() {
             </motion.div>
 
             {/* Name */}
-            <div className="mb-4">
+            <div className="hero-name mb-4">
               <motion.h1
-                className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight text-foreground"
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                className="hero-name-line text-6xl md:text-7xl lg:text-8xl font-bold text-foreground"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
@@ -138,8 +176,7 @@ export function Hero() {
                 Dasith
               </motion.h1>
               <motion.h1
-                className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight gradient-text"
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                className="hero-name-line hero-name-gradient text-6xl md:text-7xl lg:text-8xl font-bold"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -150,12 +187,18 @@ export function Hero() {
 
             {/* Title */}
             <motion.p
-              className="text-lg font-semibold text-muted-foreground mb-4"
+              className="hero-subtitle text-lg font-semibold text-muted-foreground mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              Software Engineering Undergraduate
+              {typedSubtitle}
+              <span
+                aria-hidden="true"
+                className="hero-typing-cursor"
+              >
+                |
+              </span>
             </motion.p>
 
             {/* Roles */}

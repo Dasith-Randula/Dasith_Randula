@@ -101,6 +101,15 @@
     cursor: none;
     overflow-x: hidden;
   }
+  body.custom-cursor-interactive {
+    cursor: auto;
+  }
+  body.custom-cursor-text {
+    cursor: text;
+  }
+  body.custom-cursor-interactive .custom-cursor-trail {
+    opacity: 0 !important;
+  }
   @media (max-width: 768px) {
     body {
       cursor: auto;
@@ -142,6 +151,70 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-name-line {
+    line-height: 1;
+  }
+
+  .hero-name-line + .hero-name-line {
+    margin-top: 0.06em;
+  }
+
+  .hero-name-gradient {
+    background: linear-gradient(135deg, #3B82F6 0%, #818CF8 52%, #C4B5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 24px rgba(129, 140, 248, 0.12);
+  }
+
+  .dark .hero-name-gradient {
+    background: linear-gradient(135deg, #60A5FA 0%, #A5B4FC 52%, #C4B5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .education-timeline-line {
+    background: rgba(148, 163, 184, 0.72);
+  }
+
+  .dark .education-timeline-line {
+    background: var(--border);
+  }
+
+  .hero-subtitle {
+    min-height: 1.75rem;
+  }
+
+  .hero-typing-cursor {
+    display: inline-block;
+    margin-left: 0.1em;
+    font-weight: 400;
+    animation: hero-typing-cursor-blink 0.9s step-end infinite;
+    transition: opacity 0.2s ease;
+  }
+
+  .hero-typing-cursor-complete {
+    opacity: 0;
+    animation: none;
+  }
+
+  @keyframes hero-typing-cursor-blink {
+    50% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-typing-cursor {
+      display: none;
+    }
   }
   .glow-blue {
     box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 0 40px rgba(37, 99, 235, 0.2);
@@ -313,16 +386,26 @@
     font-size: 13px;
     line-height: 1;
     font-weight: 500;
-    color: #e8eef9;
-    background: rgba(6, 13, 30, 0.88);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #334155;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.35);
     border-radius: 999px;
     white-space: nowrap;
     pointer-events: none;
     max-width: min(54vw, 200px);
     opacity: 1;
+    box-shadow: 0 4px 14px rgba(71, 85, 105, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     animation: hero-badge-float var(--badge-duration) ease-in-out infinite;
     animation-delay: var(--badge-delay);
+  }
+
+  .dark .hero-skill-badge {
+    color: #e8eef9;
+    background: rgba(6, 13, 30, 0.88);
+    border-color: rgba(148, 163, 184, 0.2);
+    box-shadow: none;
   }
 
   .hero-skill-badge__icon {

@@ -29,6 +29,13 @@ export function CustomCursor() {
   useEffect(() => {
     if (isMobile) return
 
+    const setInteractiveCursor = (interactive: boolean) => {
+      document.body.classList.toggle('custom-cursor-interactive', interactive)
+    }
+    const setTextCursor = (textInput: boolean) => {
+      document.body.classList.toggle('custom-cursor-text', textInput)
+    }
+
     const trail: Array<{ x: number; y: number }> = []
 
     const onMove = (e: MouseEvent) => {
@@ -58,6 +65,8 @@ export function CustomCursor() {
     const onLeave = () => {
       isVisibleRef.current = false
       setIsVisible(false)
+      setInteractiveCursor(false)
+      setTextCursor(false)
     }
     const onEnter = () => {
       isVisibleRef.current = true
@@ -66,10 +75,15 @@ export function CustomCursor() {
 
     const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const isBtn = target.closest('button, a, [data-cursor-button]') !== null
+      const isBtn = target.closest(
+        'button, a, [role="button"], [data-cursor-button], input, textarea, select, [contenteditable="true"]'
+      ) !== null
+      const isTextInput = target.closest('input, textarea, [contenteditable="true"]') !== null
       const isCard = target.closest('[data-cursor-card]') !== null
       setIsHoveringButton(isBtn)
       setIsHoveringCard(isCard)
+      setInteractiveCursor(isBtn)
+      setTextCursor(isTextInput)
     }
 
     document.addEventListener('mousemove', onMove)
@@ -82,6 +96,8 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', onLeave)
       document.removeEventListener('mouseenter', onEnter)
       document.removeEventListener('mouseover', onOver)
+      setInteractiveCursor(false)
+      setTextCursor(false)
     }
   }, [isMobile, rawX, rawY])
 
@@ -96,7 +112,7 @@ export function CustomCursor() {
         <div
           key={index}
           ref={(element) => { trailElementsRef.current[index] = element }}
-          className="pointer-events-none fixed rounded-full z-[9998]"
+          className="custom-cursor-trail pointer-events-none fixed rounded-full z-[9998]"
           style={{
             left: 0,
             top: 0,
@@ -118,7 +134,7 @@ export function CustomCursor() {
           y,
           translateX: `-${dotSize / 2}px`,
           translateY: `-${dotSize / 2}px`,
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible && !isHoveringButton ? 1 : 0,
           width: dotSize,
           height: dotSize,
           background: isHoveringButton
@@ -128,7 +144,7 @@ export function CustomCursor() {
             ? '0 0 12px rgba(167,139,250,0.8), 0 0 24px rgba(37,99,235,0.4)'
             : '0 0 8px rgba(96,165,250,0.7), 0 0 16px rgba(37,99,235,0.3)',
           filter: 'blur(0.5px)',
-          transition: 'width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease',
+          transition: 'opacity 0.18s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease',
         }}
       />
     </>

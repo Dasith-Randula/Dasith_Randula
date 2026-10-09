@@ -45,7 +45,7 @@ export function Education() {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
+          <div className="education-timeline-line absolute left-6 md:left-1/2 top-0 bottom-0 w-px md:-translate-x-1/2" />
 
           <div className="flex flex-col gap-12">
             {educationData.map((edu, i) => (

@@ -92,7 +92,7 @@ export function Navbar() {
                 <button
                   key={link.href}
                   onClick={() => scrollTo(link.href)}
-                  className={`relative px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  className={`relative inline-block transform-gpu px-3 py-1.5 text-sm font-medium rounded-lg transition-[transform,color,text-shadow] duration-200 ease-out hover:scale-[1.08] ${
                     activeSection === link.href.slice(1)
                       ? 'text-primary'
                       : 'text-muted-foreground hover:text-foreground'
@@ -107,13 +107,20 @@ export function Navbar() {
                   )}
                 </button>
               ))}
+              <button
+                onClick={toggleTheme}
+                className="ml-6 glass w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all hover:scale-105"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
             </div>
 
             {/* Right side */}
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleTheme}
-                className="glass w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all hover:scale-105"
+                className="lg:hidden glass w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground transition-all hover:scale-105"
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
