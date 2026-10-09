@@ -345,8 +345,12 @@
   }
 
   @media (max-width: 1023px) {
+    .hero-section {
+      flex-direction: column;
+    }
+
     .hero-portrait-scene {
-      width: min(100%, 520px);
+      width: min(100%, 600px);
     }
 
     .hero-artwork {
@@ -359,42 +363,131 @@
     }
 
     .hero-portrait-badges {
-      position: relative;
-      inset: auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 8px 10px;
-      margin-top: 0.75rem;
-      padding-bottom: 0.25rem;
+      position: absolute;
+      inset: 0;
     }
 
     .hero-skill-badge-position {
-      position: relative;
-      inset: auto !important;
-      left: auto !important;
-      right: auto !important;
-      top: auto !important;
-      opacity: 1;
-      visibility: visible;
+      position: absolute;
     }
 
     .hero-skill-badge {
-      width: auto;
-      max-width: none;
-      min-height: 36px;
-      font-size: 12px;
-      padding: 0 12px;
-      animation: none;
+      min-height: clamp(36px, 4.5vw, 42px);
+      padding-inline: clamp(10px, 1.8vw, 15px);
+      font-size: clamp(11px, 1.45vw, 13px);
+      max-width: min(38vw, 200px);
+    }
+
+    .hero-skill-badge-position:nth-child(1) {
+      left: 0;
+      top: 8%;
+    }
+
+    .hero-skill-badge-position:nth-child(2) {
+      right: 0;
+      top: 9%;
+    }
+
+    .hero-skill-badge-position:nth-child(3) {
+      left: 0 !important;
+      top: 43% !important;
+    }
+
+    .hero-skill-badge-position:nth-child(4) {
+      right: 0;
+      top: 45%;
+    }
+
+    .hero-skill-badge-position:nth-child(5) {
+      right: 3%;
+      top: 72%;
+    }
+
+    .hero-scroll-indicator {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      margin: 2.75rem auto 0;
     }
   }
 
   @media (max-width: 767px) {
     .hero-portrait-scene {
-      width: min(100%, 480px);
+      width: min(100%, 520px);
     }
 
+    .hero-skill-badge-position:nth-child(1) {
+      left: 1%;
+      top: 7%;
+    }
+
+    .hero-skill-badge-position:nth-child(2) {
+      right: 1%;
+      top: 8%;
+    }
+
+    .hero-skill-badge-position:nth-child(3) {
+      left: 1% !important;
+      top: 45% !important;
+    }
+
+    .hero-skill-badge-position:nth-child(4) {
+      right: 1%;
+      top: 47%;
+    }
+
+    .hero-skill-badge-position:nth-child(5) {
+      right: 5%;
+      top: 74%;
+    }
+
+    .hero-skill-badge {
+      max-width: min(42vw, 190px);
+      min-height: 34px;
+      padding-inline: 10px;
+      gap: 0.4rem;
+      font-size: clamp(10px, 2.7vw, 12px);
+    }
+
+    .hero-skill-badge__icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+  }
+
+  @media (max-width: 374px) {
+    .hero-skill-badge-position:nth-child(1) {
+      left: 0;
+      top: 6%;
+    }
+
+    .hero-skill-badge-position:nth-child(2) {
+      right: 0;
+      top: 7%;
+    }
+
+    .hero-skill-badge-position:nth-child(3) {
+      left: 0 !important;
+      top: 46% !important;
+    }
+
+    .hero-skill-badge-position:nth-child(4) {
+      right: 0;
+      top: 48%;
+    }
+
+    .hero-skill-badge-position:nth-child(5) {
+      right: 2%;
+      top: 76%;
+    }
+
+    .hero-skill-badge {
+      max-width: min(45vw, 178px);
+      padding-inline: 8px;
+      gap: 0.3rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
