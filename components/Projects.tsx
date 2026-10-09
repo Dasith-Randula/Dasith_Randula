@@ -649,6 +649,15 @@ function XAIFashionProject() {
           </div>
           <div className="flex w-full flex-wrap items-center gap-3">
             <GithubButton href="https://github.com/Dasith-Randula/Explainable-Fashion-Design-AI" color="#DB2777" />
+            <a
+              href="https://threadwise-chi.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit h-10 items-center justify-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 hover:bg-white/5"
+              style={{ borderColor: '#DB277780', color: '#DB2777' }}
+            >
+              <ExternalLink size={16} /> Live Demo
+            </a>
           </div>
         </div>
       </div>
@@ -801,6 +810,7 @@ export function Projects() {
             color="#DB2777"
             icon={Brain}
             github="https://github.com/Dasith-Randula/smartcare-disease-risk-ai"
+            demo="https://smartcare-disease-risk-ai.streamlit.app/"
             media={<ProjectImageGallery images={smartCareRiskScreenshots} accent="#DB2777" />}
           />
         </div>
