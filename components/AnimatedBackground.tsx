@@ -42,9 +42,9 @@ export function AnimatedBackground() {
 
       // Gradient blobs
       const blobs = [
-        { x: w * 0.15, y: h * 0.2, r: 350, c1: dark ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.07)', c2: 'transparent' },
-        { x: w * 0.85, y: h * 0.3, r: 300, c1: dark ? 'rgba(124,58,237,0.1)' : 'rgba(124,58,237,0.06)', c2: 'transparent' },
-        { x: w * 0.5, y: h * 0.7, r: 400, c1: dark ? 'rgba(6,182,212,0.08)' : 'rgba(6,182,212,0.04)', c2: 'transparent' },
+        { x: w * 0.15, y: h * 0.2, r: 420, c1: dark ? 'rgba(37,99,235,0.12)' : 'rgba(191,219,254,0.3)', c2: 'transparent' },
+        { x: w * 0.85, y: h * 0.3, r: 380, c1: dark ? 'rgba(124,58,237,0.1)' : 'rgba(221,214,254,0.28)', c2: 'transparent' },
+        { x: w * 0.5, y: h * 0.7, r: 460, c1: dark ? 'rgba(6,182,212,0.08)' : 'rgba(199,210,254,0.2)', c2: 'transparent' },
       ]
 
       for (const blob of blobs) {
